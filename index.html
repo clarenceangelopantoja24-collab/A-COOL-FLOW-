@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cool Flow | Acoustic Collective | Cebu City</title>
+  <meta name="description" content="Cool Flow - A Cebuano acoustic music collective capturing raw, unfiltered sound through intimate live sessions and high-fidelity recordings." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-secondary: #0a0a0a;
+      --accent: #f0b07a;
+      --accent-hover: #f5c49a;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-strong: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.1);
+      --border-hover: rgba(240, 176, 122, 0.3);
+      --text: #ffffff;
+      --text-secondary: #e0e0e0;
+      --muted: #a1a1a1;
+      --muted-dark: #666666;
+      --glow: rgba(240, 176, 122, 0.15);
+      --glow-strong: rgba(240, 176, 122, 0.4);
+      --gradient-gold: linear-gradient(135deg, #f0b07a 0%, #e8a05a 100%);
+      --shadow-elevated: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body { 
+      background-color: var(--bg); 
+      color: var(--text); 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- NOISE TEXTURE OVERLAY --- */
+    .noise-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* --- CUSTOM SCROLLBAR --- */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+
+    /* --- NAVIGATION --- */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      transition: all 0.4s ease;
+    }
+    .nav.scrolled {
+      background: rgba(5,5,5,0.95);
+      padding: 15px 40px;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover {
+      color: var(--text);
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* --- ENHANCED ANIMATIONS --- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-scale.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .hero-vid {
+      position: absolute;
+      width: 100vw; 
+      height: 100vh;
+      top: 50%; 
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1.1);
+      z-index: 1;
+      filter: saturate(0.6) brightness(0.4) contrast(1.1);
+      animation: slowZoom 20s ease-in-out infinite alternate;
+      background: var(--bg);
+    }
+    .hero-vid iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    @keyframes slowZoom {
+      from { transform: translate(-50%, -50%) scale(1.1); }
+      to { transform: translate(-50%, -50%) scale(1.2); }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(5,5,5,0.3) 0%, transparent 30%, var(--bg) 90%);
+      z-index: 2;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      max-width: 900px;
+      padding: 0 40px;
+    }
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--accent);
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeInUp 1s ease 0.5s forwards;
+    }
+    .hero-title h1 {
+      font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 900;
+      letter-spacing: -6px;
+      line-height: 0.9;
+      background: linear-gradient(to bottom, #fff 0%, #888 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 30px;
+      animation: titleIn 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes titleIn {
+      from { opacity: 0; letter-spacing: 20px; filter: blur(20px); transform: translateY(30px); }
+      to { opacity: 1; letter-spacing: -6px; filter: blur(0); transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-description {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      opacity: 0;
+      animation: fadeInUp 1s ease 1s forwards;
+    }
+    .hero-cta {
+      display: inline-flex;
+      gap: 20px;
+      opacity: 0;
+      animation: fadeInUp 1s ease 1.2s forwards;
+    }
+    .btn-primary {
+      background: var(--gradient-gold);
+      color: #000;
+      padding: 16px 40px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px var(--glow-strong);
+      letter-spacing: 2px;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      padding: 16px 40px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeInUp 1s ease 1.5s forwards;
+    }
+    .scroll-indicator span {
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    /* --- MAIN LAYOUT --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* --- SECTION HEADERS --- */
+    .section-header {
+      margin-bottom: 60px;
+      position: relative;
+    }
+    .section-tag {
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .section-tag::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .section-title {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+    }
+
+    /* --- SOCIAL INFO SECTION --- */
+    .social-info-section {
+      padding: 80px 0;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+    .social-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      transition: all 0.4s ease;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+    }
+    .social-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px var(--glow);
+    }
+    .social-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--gradient-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 20px;
+      color: #000;
+      font-weight: 800;
+    }
+    .social-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .social-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+    .social-handle {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    /* --- ABOUT SECTION --- */
+    .about-section {
+      padding: 120px 0;
+      position: relative;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    .about-content h2 { 
+      font-size: clamp(2.5rem, 4vw, 3rem); 
+      margin-bottom: 30px; 
+      line-height: 1.1;
+      letter-spacing: -2px;
+    }
+    .about-content p { 
+      font-size: 1.1rem; 
+      color: var(--text-secondary); 
+      margin-bottom: 25px;
+      line-height: 1.8;
+    }
+    .about-content .highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .stats-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+    .stat-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      padding: 35px;
+      border-radius: 20px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--gradient-gold);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    .stat-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-elevated);
+    }
+    .stat-card:hover::before {
+      transform: scaleX(1);
+    }
+    .stat-label { 
+      font-size: 0.75rem; 
+      text-transform: uppercase; 
+      letter-spacing: 3px; 
+      color: var(--muted); 
+      margin-bottom: 10px;
+    }
+    .stat-value { 
+      font-size: 2.5rem; 
+      font-weight: 800;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* --- PHILOSOPHY SECTION --- */
+    .philosophy-section {
+      padding: 100px 0;
+      background: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+    .philosophy-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+    .philosophy-card {
+      padding: 40px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--glass);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    .philosophy-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-10px);
+      background: var(--glass-strong);
+    }
+    .philosophy-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient-gold);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 25px;
+      color: #000;
+    }
+    .philosophy-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    .philosophy-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* --- VIDEO SECTIONS --- */
+    .videos-section {
+      padding: 120px 0;
+    }
+    .section-tabs {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 50px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 15px 0;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .tab-btn.active {
+      color: var(--text);
+    }
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .tab-btn.active::after,
+    .tab-btn:hover::after {
+      width: 100%;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+    .video-item {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+    }
+    .video-item:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px var(--glow);
+    }
+    .video-thumb {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      background: var(--bg);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .video-thumb img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .video-item:hover .video-thumb img {
+      transform: scale(1.05);
+    }
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px;
+      height: 70px;
+      background: rgba(240, 176, 122, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+    .play-button::after {
+      content: '▶';
+      color: #000;
+      font-size: 1.5rem;
+      margin-left: 5px;
+    }
+    .play-button:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: var(--accent);
+      box-shadow: 0 0 30px var(--glow-strong);
+    }
+    .video-info {
+      padding: 25px;
+    }
+    .video-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .video-meta {
+      display: flex;
+      gap: 15px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .video-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* --- CLIPS SECTION --- */
+    .clips-section {
+      padding: 100px 0;
+      background: var(--bg-secondary);
+    }
+    .clips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    .clip-item {
+      background: var(--bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    .clip-item:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 15px 30px var(--glow);
+    }
+    .clip-thumb {
+      position: relative;
+      width: 100%;
+      padding-bottom: 177.78%;
+      background: var(--bg-secondary);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .clip-thumb img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .clip-item:hover .clip-thumb img {
+      transform: scale(1.05);
+    }
+    .clip-thumb .play-button {
+      width: 50px;
+      height: 50px;
+    }
+    .clip-thumb .play-button::after {
+      font-size: 1rem;
+    }
+    .clip-info {
+      padding: 20px;
+    }
+    .clip-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      line-height: 1.4;
+    }
+    .clip-views {
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* --- GALLERY SECTION --- */
+    .gallery-section {
+      padding: 100px 0;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .gallery-item {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+    .gallery-item:nth-child(2),
+    .gallery-item:nth-child(3) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      filter: saturate(0.8) brightness(0.8);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.1);
+      filter: saturate(1) brightness(1);
+    }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+    .gallery-caption {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* --- EQUIPMENT/GEAR SECTION --- */
+    .gear-section {
+      padding: 120px 0;
+      background: var(--bg-secondary);
+    }
+    .gear-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+    .gear-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      gap: 25px;
+      transition: all 0.4s ease;
+    }
+    .gear-card:hover {
+      border-color: var(--border-hover);
+      transform: translateX(10px);
+    }
+    .gear-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--glass-strong);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .gear-content h4 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .gear-content p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* --- TESTIMONIALS --- */
+    .testimonials-section {
+      padding: 100px 0;
+      background: linear-gradient(to bottom, var(--bg-secondary), var(--bg));
+    }
+    .testimonial-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 50px;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 6rem;
+      color: var(--accent);
+      opacity: 0.3;
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      line-height: 1;
+    }
+    .testimonial-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: var(--text-secondary);
+    }
+    .testimonial-author {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .testimonial-role {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 5px;
+    }
+
+    /* --- ENHANCED INQUIRY FORM --- */
+    .contact-section {
+      padding: 120px 0;
+      position: relative;
+    }
+    .contact-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-info h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 25px;
+      letter-spacing: -2px;
+    }
+    .contact-info > p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      line-height: 1.8;
+    }
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .contact-text h4 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .contact-text p, .contact-text a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    .contact-text a:hover {
+      color: var(--accent);
+    }
+    .response-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(240, 176, 122, 0.1);
+      border: 1px solid var(--border-hover);
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-top: 30px;
+    }
+    
+    .contact-form-wrapper {
+      background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,1) 100%);
+      padding: 50px;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-elevated);
+    }
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .form-group input, 
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      color: #fff;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    .form-group input:focus, 
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.07);
+      outline: none;
+      box-shadow: 0 0 20px var(--glow);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .submit-btn {
+      width: 100%;
+      background: var(--gradient-gold);
+      color: #000;
+      padding: 20px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    .submit-btn:hover { 
+      letter-spacing: 4px; 
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px var(--glow-strong);
+    }
+    .submit-btn:hover::before {
+      left: 100%;
+    }
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* --- FOOTER --- */
+    footer { 
+      padding: 80px 40px 40px; 
+      text-align: center; 
+      border-top: 1px solid var(--border);
+      background: var(--bg-secondary);
+      position: relative;
+    }
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .footer-logo {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -3px;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .footer-tagline {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 50px;
+    }
+    .footer-socials a {
+      padding: 15px 30px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .footer-socials a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+      background: var(--glass);
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: var(--text);
+    }
+    .copyright {
+      color: var(--muted-dark); 
+      font-size: 0.75rem; 
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* --- VIDEO MODAL --- */
+    .video-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .video-modal.active {
+      display: flex;
+    }
+    .modal-content {
+      width: 100%;
+      max-width: 1000px;
+      aspect-ratio: 16/9;
+      position: relative;
+    }
+    .modal-content iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+    }
+    .modal-close {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 2rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.3s ease;
+    }
+    .modal-close:hover {
+      color: var(--accent);
+    }
+
+    /* --- MOBILE RESPONSIVE --- */
+    @media (max-width: 1024px) {
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+      .philosophy-grid {
+        grid-template-columns: 1fr;
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .gallery-item:nth-child(2),
+      .gallery-item:nth-child(3) {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+      .gear-grid {
+        grid-template-columns: 1fr;
+      }
+      .social-grid {
+        grid-template-columns: 1fr;
+      }
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .hero-title h1 {
+        letter-spacing: -2px;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .container {
+        padding: 0 20px;
+      }
+      .contact-form-wrapper {
+        padding: 30px;
+      }
+      .clips-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* --- LOADING ANIMATION --- */
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .page-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loader-content {
+      text-align: center;
+    }
+    .loader-bar {
+      width: 200px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .loader-progress {
+      width: 0;
+      height: 100%;
+      background: var(--accent);
+      animation: loadProgress 2s ease forwards;
+    }
+    @keyframes loadProgress {
+      to { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Noise Overlay -->
+  <div class="noise-overlay"></div>
+
+  <!-- Page Loader -->
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-content">
+      <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: 4px; color: var(--accent);">COOL FLOW</div>
+      <div class="loader-bar">
+        <div class="loader-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Modal -->
+  <div class="video-modal" id="videoModal" onclick="closeModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <iframe id="modalIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="navbar">
+    <div class="nav-logo">COOL FLOW</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#clips">Clips</a></li>
+      <li><a href="#philosophy">Philosophy</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-vid">
+      <iframe src="https://www.youtube.com/embed/Qw-fSrTHycY?autoplay=1&mute=1&controls=0&loop=1&playlist=Qw-fSrTHycY&start=10" allow="autoplay; encrypted-media" title="Cool Flow Background"></iframe>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-subtitle">Acoustic Collective</div>
+      <div class="hero-title">
+        <h1>COOL FLOW</h1>
+      </div>
+      <p class="hero-description">
+        Raw sound. Honest vocals. Intimate sessions from the heart of Cebu City. 
+        We capture music as it's meant to be heard—unfiltered and alive.
+      </p>
+      <div class="hero-cta">
+        <a href="#videos" class="btn-primary">Watch Videos</a>
+        <a href="#contact" class="btn-secondary">Get in Touch</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
+
+  <!-- Social Info Section -->
+  <section class="social-info-section" id="social">
+    <div class="container">
+      <div class="section-header" style="text-align: center; margin-bottom: 50px;">
+        <div class="section-tag" style="justify-content: center;">Connect With Us</div>
+        <h2 class="section-title">Follow Our Journey</h2>
+      </div>
+      <div class="social-grid">
+        <a href="https://www.youtube.com/@coolflow27" target="_blank" rel="noopener" class="social-card reveal-scale">
+          <div class="social-icon">▶</div>
+          <h3>YouTube</h3>
+          <p>Full sessions, covers, and original music</p>
+          <div class="social-handle">@coolflow27</div>
+        </a>
+        <a href="https://www.tiktok.com/@cool.flow" target="_blank" rel="noopener" class="social-card reveal-scale" style="transition-delay: 0.1s">
+          <div class="social-icon">♪</div>
+          <h3>TikTok</h3>
+          <p>Short clips and viral moments</p>
+          <div class="social-handle">@cool.flow</div>
+        </a>
+        <a href="https://www.facebook.com/CoolFlow27" target="_blank" rel="noopener" class="social-card reveal-scale" style="transition-delay: 0.2s">
+          <div class="social-icon">f</div>
+          <h3>Facebook</h3>
+          <p>Updates, events, and community</p>
+          <div class="social-handle">@CoolFlow27</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- About Section -->
+    <section class="about-section reveal" id="about">
+      <div class="about-grid">
+        <div class="about-content">
+          <div class="section-tag">Who We Are</div>
+          <h2>Acoustic Excellence from Cebu.</h2>
+          <p>
+            Cool Flow is a <span class="highlight">Cebuano collective</span> built on the philosophy of raw sound. We eliminate the artificial filters of modern music to capture the pure resonance of acoustic instruments and honest vocals.
+          </p>
+          <p>
+            Based in <span class="highlight">Cebu City, Philippines</span>, we specialize in acoustic covers and original compositions that showcase the beauty of stripped-down, intimate performances. Every session is recorded in high-fidelity to make you feel like you're sitting in the room with us.
+          </p>
+          <p>
+            Our community has grown to over <span class="highlight">4,300 subscribers</span> on YouTube, with our most popular cover "Raining in Manila" reaching <span class="highlight">20,000 views</span>. We've produced more than <span class="highlight">100 live sessions</span> featuring both established and emerging artists.
+          </p>
+          <p style="margin-top: 30px;">
+            <a href="#philosophy" class="btn-secondary" style="padding: 12px 30px; font-size: 0.8rem;">Our Philosophy →</a>
+          </p>
+        </div>
+        <div class="stats-container">
+          <div class="stat-card reveal-scale">
+            <div class="stat-label">YouTube</div>
+            <div class="stat-value">4.3K+</div>
+            <div class="stat-desc">Subscribers</div>
+          </div>
+          <div class="stat-card reveal-scale" style="transition-delay: 0.1s">
+            <div class="stat-label">Productions</div>
+            <div class="stat-value">100+</div>
+            <div class="stat-desc">Live Sessions</div>
+          </div>
+          <div class="stat-card reveal-scale" style="transition-delay: 0.2s">
+            <div class="stat-label">Location</div>
+            <div class="stat-value">CEBU</div>
+            <div class="stat-desc">City, Philippines</div>
+          </div>
+          <div class="stat-card reveal-scale" style="transition-delay: 0.3s">
+            <div class="stat-label">Top Video</div>
+            <div class="stat-value">20K</div>
+            <div class="stat-desc">Views (Raining in Manila)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Philosophy Section -->
+  <section class="philosophy-section reveal" id="philosophy">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Our Approach</div>
+        <h2 class="section-title">The Philosophy of Raw Sound</h2>
+        <p class="section-subtitle">Three pillars guide every session we produce.</p>
+      </div>
+      <div class="philosophy-grid">
+        <div class="philosophy-card reveal-scale">
+          <div class="philosophy-icon">🎵</div>
+          <h3>Pure Acoustics</h3>
+          <p>We use only acoustic instruments and natural room acoustics. No digital enhancement, no artificial reverb—just the true sound of wood, steel, and breath.</p>
+        </div>
+        <div class="philosophy-card reveal-scale" style="transition-delay: 0.1s">
+          <div class="philosophy-icon">🎙️</div>
+          <h3>Intimate Recording</h3>
+          <p>Our sessions are recorded in intimate spaces that capture the subtle nuances of each performance. You can hear the fingers on strings, the breath between phrases.</p>
+        </div>
+        <div class="philosophy-card reveal-scale" style="transition-delay: 0.2s">
+          <div class="philosophy-icon">✨</div>
+          <h3>Honest Moments</h3>
+          <p>We believe in capturing the imperfect perfection of live performance. Every session preserves the magic of that specific moment in time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Videos Section -->
+    <section class="videos-section reveal" id="videos">
+      <div class="section-header">
+        <div class="section-tag">Full Sessions</div>
+        <h2 class="section-title">Complete Performances</h2>
+        <p class="section-subtitle">Watch our full acoustic sessions and covers.</p>
+      </div>
+      
+      <div class="video-grid">
+        <!-- Most Popular -->
+        <div class="video-item reveal-scale">
+          <div class="video-thumb" onclick="openModal('a1cikncJrsE')">
+            <img src="https://img.youtube.com/vi/a1cikncJrsE/maxresdefault.jpg" alt="Raining in Manila - Lola Amour" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Raining in Manila - Lola Amour</div>
+            <div class="video-meta">
+              <span>▶ 20K views</span>
+              <span>•</span>
+              <span>Acoustic Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.1s">
+          <div class="video-thumb" onclick="openModal('zc0TtLWwb3k')">
+            <img src="https://img.youtube.com/vi/zc0TtLWwb3k/maxresdefault.jpg" alt="Imagine - John Lennon" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Imagine - John Lennon</div>
+            <div class="video-meta">
+              <span>▶ 13K views</span>
+              <span>•</span>
+              <span>Cool Flow Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.2s">
+          <div class="video-thumb" onclick="openModal('Mio_wlkL_IU')">
+            <img src="https://img.youtube.com/vi/Mio_wlkL_IU/maxresdefault.jpg" alt="As Long As It Matters - Gin Blossoms" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">As Long As It Matters - Gin Blossoms</div>
+            <div class="video-meta">
+              <span>▶ 11K views</span>
+              <span>•</span>
+              <span>Cool Flow Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale">
+          <div class="video-thumb" onclick="openModal('67JeeHhWTEM')">
+            <img src="https://img.youtube.com/vi/67JeeHhWTEM/maxresdefault.jpg" alt="Until I Found You - Stephen Sanchez" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Until I Found You - Stephen Sanchez</div>
+            <div class="video-meta">
+              <span>▶ 10K views</span>
+              <span>•</span>
+              <span>Acoustic Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.1s">
+          <div class="video-thumb" onclick="openModal('L-Xf4Rf8QfU')">
+            <img src="https://img.youtube.com/vi/L-Xf4Rf8QfU/maxresdefault.jpg" alt="Crooked Eyes - Sticky Fingers" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Crooked Eyes - Sticky Fingers</div>
+            <div class="video-meta">
+              <span>▶ 7K views</span>
+              <span>•</span>
+              <span>Cool Flow Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.2s">
+          <div class="video-thumb" onclick="openModal('Zt8TtnQA3sA')">
+            <img src="https://img.youtube.com/vi/Zt8TtnQA3sA/maxresdefault.jpg" alt="Love Songs Collection" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Love Songs Collection</div>
+            <div class="video-meta">
+              <span>▶ 4.5K views</span>
+              <span>•</span>
+              <span>Acoustic Session</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale">
+          <div class="video-thumb" onclick="openModal('mzZWkLELP2k')">
+            <img src="https://img.youtube.com/vi/mzZWkLELP2k/maxresdefault.jpg" alt="7 Years - Lukas Graham" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">7 Years - Lukas Graham</div>
+            <div class="video-meta">
+              <span>▶ 578 views</span>
+              <span>•</span>
+              <span>Burn Larido Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.1s">
+          <div class="video-thumb" onclick="openModal('O8nO1YcKUSg')">
+            <img src="https://img.youtube.com/vi/O8nO1YcKUSg/maxresdefault.jpg" alt="Moonlight Over Paris - Paolo Santos" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Moonlight Over Paris - Paolo Santos</div>
+            <div class="video-meta">
+              <span>▶ 343 views</span>
+              <span>•</span>
+              <span>Cool Flow Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.2s">
+          <div class="video-thumb" onclick="openModal('Qw-fSrTHycY')">
+            <img src="https://img.youtube.com/vi/Qw-fSrTHycY/maxresdefault.jpg" alt="What You Won't Do For Love - Bobby Caldwell" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">What You Won't Do For Love - Bobby Caldwell</div>
+            <div class="video-meta">
+              <span>▶ 359 views</span>
+              <span>•</span>
+              <span>Burn Larido Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale">
+          <div class="video-thumb" onclick="openModal('dQIkRXH3dzM')">
+            <img src="https://img.youtube.com/vi/dQIkRXH3dzM/maxresdefault.jpg" alt="THE SHADE - Rex Orange County" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">THE SHADE - Rex Orange County</div>
+            <div class="video-meta">
+              <span>▶ 138 views</span>
+              <span>•</span>
+              <span>Mark Kim Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.1s">
+          <div class="video-thumb" onclick="openModal('XHV3ryCUIRQ')">
+            <img src="https://img.youtube.com/vi/XHV3ryCUIRQ/maxresdefault.jpg" alt="Opalite - Taylor Swift" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Opalite - Taylor Swift</div>
+            <div class="video-meta">
+              <span>▶ 268 views</span>
+              <span>•</span>
+              <span>Burn Larido Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.2s">
+          <div class="video-thumb" onclick="openModal('ooPdi9uN9M8')">
+            <img src="https://img.youtube.com/vi/ooPdi9uN9M8/maxresdefault.jpg" alt="Fix You - Coldplay" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Fix You - Coldplay</div>
+            <div class="video-meta">
+              <span>▶ 59 views</span>
+              <span>•</span>
+              <span>Burn Larido Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- NEW VIDEOS ADDED BELOW -->
+
+        <div class="video-item reveal-scale">
+          <div class="video-thumb" onclick="openModal('eeXlhKwIt-Y')">
+            <img src="https://img.youtube.com/vi/eeXlhKwIt-Y/maxresdefault.jpg" alt="Baby I Love Your Way - Cool Flow" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Baby I Love Your Way</div>
+            <div class="video-meta">
+              <span>▶ 2.2K views</span>
+              <span>•</span>
+              <span>Acoustic Raw Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.1s">
+          <div class="video-thumb" onclick="openModal('AO2-pabT8u8')">
+            <img src="https://img.youtube.com/vi/AO2-pabT8u8/maxresdefault.jpg" alt="Cool Flow Acoustic Playlist 2022" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Cool Flow Acoustic Playlist 2022</div>
+            <div class="video-meta">
+              <span>▶ 665 views</span>
+              <span>•</span>
+              <span>Playlist Vol. 3</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.2s">
+          <div class="video-thumb" onclick="openModal('CN9cmKHnHUE')">
+            <img src="https://img.youtube.com/vi/CN9cmKHnHUE/maxresdefault.jpg" alt="Acoustic Playlist Vol 2" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Acoustic Playlist ~ Vol 2</div>
+            <div class="video-meta">
+              <span>▶ 1,832 views</span>
+              <span>•</span>
+              <span>2023 Covers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale">
+          <div class="video-thumb" onclick="openModal('RdeNRtnzABA')">
+            <img src="https://img.youtube.com/vi/RdeNRtnzABA/maxresdefault.jpg" alt="Teardrops on My Guitar - Taylor Swift" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Teardrops on My Guitar - Taylor Swift</div>
+            <div class="video-meta">
+              <span>▶ 454 views</span>
+              <span>•</span>
+              <span>Mark Kim Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.1s">
+          <div class="video-thumb" onclick="openModal('MlDhdWvUwvs')">
+            <img src="https://img.youtube.com/vi/MlDhdWvUwvs/maxresdefault.jpg" alt="Maneater - Daryl Hall & John Oates" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Maneater - Daryl Hall & John Oates</div>
+            <div class="video-meta">
+              <span>▶ 415 views</span>
+              <span>•</span>
+              <span>Burn Larido Cover</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-item reveal-scale" style="transition-delay: 0.2s">
+          <div class="video-thumb" onclick="openModal('EqYYdhAYe_A')">
+            <img src="https://img.youtube.com/vi/EqYYdhAYe_A/maxresdefault.jpg" alt="Inspector Mills - America" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Inspector Mills - America</div>
+            <div class="video-meta">
+              <span>▶ Cool Flow Cover</span>
+              <span>•</span>
+              <span>Acoustic Session</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Short Clips Section -->
+  <section class="clips-section reveal" id="clips">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Short Clips</div>
+        <h2 class="section-title">Viral Moments</h2>
+        <p class="section-subtitle">Quick highlights and trending clips from our sessions.</p>
+      </div>
+      
+      <div class="clips-grid">
+        <div class="clip-item reveal-scale" onclick="openModal('856eoxcUa3s')">
+          <div class="clip-thumb">
+            <img src="https://img.youtube.com/vi/856eoxcUa3s/maxresdefault.jpg" alt="Hirap Kalimutan" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="clip-info">
+            <div class="clip-title">Hirap Kalimutan</div>
+            <div class="clip-views">▶ 209 views</div>
+          </div>
+        </div>
+
+        <div class="clip-item reveal-scale" style="transition-delay: 0.05s" onclick="openModal('QPlaGWm6K7U')">
+          <div class="clip-thumb">
+            <img src="https://img.youtube.com/vi/QPlaGWm6K7U/maxresdefault.jpg" alt="10,000 Hours" loading="lazy">
+            <div class="play-button"></div>
+          </div>
+          <div class="clip-info">
+            <div class="clip-title">10,000 Hours - Dan + Shay & Justin Bieber</div>
+            <div class="clip-views">▶ 818 views</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Gallery Section -->
+    <section class="gallery-section reveal">
+      <div class="section-header">
+        <div class="section-tag">Visuals</div>
+        <h2 class="section-title">Session Moments</h2>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&auto=format&fit=crop" alt="Recording Studio" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Studio Environment</div>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1525201548942-d8732f6617a0?w=800&auto=format&fit=crop" alt="Acoustic Guitar" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Acoustic Sessions</div>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1465847899078-b413929f7120?w=800&auto=format&fit=crop" alt="Intimate Setting" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Intimate Setting</div>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&auto=format&fit=crop" alt="Live Performance" loading="lazy">
+          <div class="gallery-overlay">
+            <div class="gallery-caption">Live Performance</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gear Section -->
+    <section class="gear-section reveal" id="gear">
+      <div class="section-header">
+        <div class="section-tag">Equipment</div>
+        <h2 class="section-title">Our Setup</h2>
+        <p class="section-subtitle">Professional gear for professional sound.</p>
+      </div>
+      <div class="gear-grid">
+        <div class="gear-card reveal-left">
+          <div class="gear-icon">🎸</div>
+          <div class="gear-content">
+            <h4>Acoustic Guitars</h4>
+            <p>Maton EBG808TE, Martin D-28, and Taylor 814ce. Hand-selected for their warm, balanced tone and exceptional projection.</p>
+          </div>
+        </div>
+        <div class="gear-card reveal-left" style="transition-delay: 0.1s">
+          <div class="gear-icon">🎤</div>
+          <div class="gear-content">
+            <h4>Microphones</h4>
+            <p>Neumann U87 Ai, Shure SM7B, and AKG C414. Industry standards for capturing vocals and instruments with pristine clarity.</p>
+          </div>
+        </div>
+        <div class="gear-card reveal-left" style="transition-delay: 0.2s">
+          <div class="gear-icon">🎛️</div>
+          <div class="gear-content">
+            <h4>Recording Interface</h4>
+            <p>Universal Audio Apollo x8p with Heritage Edition plugins. Analog warmth meets digital precision.</p>
+          </div>
+        </div>
+        <div class="gear-card reveal-left" style="transition-delay: 0.3s">
+          <div class="gear-icon">🎚️</div>
+          <div class="gear-content">
+            <h4>Mixing Environment</h4>
+            <p>Treated room with Yamaha HS8 monitors and Sonarworks calibration. What you hear is what you get.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Testimonials -->
+  <section class="testimonials-section reveal">
+    <div class="container">
+      <div class="testimonial-card">
+        <p class="testimonial-text">
+          "Cool Flow captures something rare in today's music scene—authenticity. 
+          Every session feels like a private concert in your living room."
+        </p>
+        <div class="testimonial-author">Maria Santos</div>
+        <div class="testimonial-role">Music Journalist, Cebu Daily News</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Contact Section -->
+    <section class="contact-section reveal" id="contact">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="section-tag">Get in Touch</div>
+          <h2>Get in Flow.</h2>
+          <p>
+            Want to collaborate on a session? Book the collective for a private live event? 
+            Or just want to say hello? We'd love to hear from you.
+          </p>
+          
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-icon">📧</div>
+              <div class="contact-text">
+                <h4>Email</h4>
+                <a href="mailto:coolflow.cebu@gmail.com">coolflow.cebu@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📱</div>
+              <div class="contact-text">
+                <h4>YouTube</h4>
+                <a href="https://www.youtube.com/@coolflow27" target="_blank">@coolflow27</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">🎵</div>
+              <div class="contact-text">
+                <h4>TikTok</h4>
+                <a href="https://www.tiktok.com/@cool.flow" target="_blank">@cool.flow</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div class="contact-text">
+                <h4>Location</h4>
+                <p>Cebu City, Philippines</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="response-time">
+            <span>⚡</span>
+            <span>Response time: 24-48 hours</span>
+          </div>
+        </div>
+
+        <div class="contact-form-wrapper">
+          <form id="contactForm" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required placeholder="John Doe">
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="john@example.com">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <select id="subject" name="subject" required style="cursor: pointer;">
+                <option value="" disabled selected>Select a subject</option>
+                <option value="collaboration">Collaboration Request</option>
+                <option value="booking">Event Booking</option>
+                <option value="press">Press Inquiry</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Your Message</label>
+              <textarea id="message" name="message" rows="5" required placeholder="Tell us about your project, event, or question..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">COOL FLOW</div>
+      <p class="footer-tagline">"Raw sound. Honest vocals. Intimate sessions."</p>
+      
+      <div class="footer-socials">
+        <a href="https://www.youtube.com/@coolflow27" target="_blank" rel="noopener">
+          <span>▶</span> YouTube
+        </a>
+        <a href="https://www.tiktok.com/@cool.flow" target="_blank" rel="noopener">
+          <span>♪</span> TikTok
+        </a>
+        <a href="https://www.facebook.com/CoolFlow27" target="_blank" rel="noopener">
+          <span>f</span> Facebook
+        </a>
+      </div>
+
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#videos">Videos</a>
+        <a href="#clips">Clips</a>
+        <a href="#philosophy">Philosophy</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="copyright">
+        © 2026 COOL FLOW • CEBU CITY, PHILIPPINES • ALL RIGHTS RESERVED
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Page Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('pageLoader').classList.add('hidden');
+      }, 1500);
+    });
+
+    // Navigation Scroll Effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Scroll Reveal Observer
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => observer.observe(el));
+
+    // Video Modal Functions
+    function openModal(videoId) {
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('modalIframe');
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(event) {
+      if (event && event.target !== event.currentTarget && !event.target.classList.contains('modal-close')) {
+        return;
+      }
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('modalIframe');
+      iframe.src = '';
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Form Handling
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const originalText = btn.textContent;
+      
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      
+      setTimeout(() => {
+        btn.textContent = 'Message Sent! ✓';
+        btn.style.background = '#4ade80';
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.background = '';
+          document.getElementById('contactForm').reset();
+        }, 2000);
+      }, 1500);
+    }
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Parallax Effect
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const heroVid = document.querySelector('.hero-vid');
+      if (heroVid && scrolled < window.innerHeight) {
+        heroVid.style.transform = `translate(-50%, -50%) scale(1.1) translateY(${scrolled * 0.5}px)`;
+      }
+    });
+  </script>
+</body>
+</html>
